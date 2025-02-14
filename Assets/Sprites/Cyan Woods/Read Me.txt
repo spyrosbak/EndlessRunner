@@ -1,0 +1,48 @@
+​
+
+this is asset is yours to use in any way you want for both commercial and non-commercial projects according to:
+
+https://creativecommons.org/licenses/by/4.0/
+
+Attribution:
+
+Initiatorgames.com​
+
+asset information 
+
+resolution: 640x360 pixels
+
+Tileset size: 32x32
+
+the asset comes with 3 grass sprites and an extra Face in tree sprite to be attached on a tree on BG2.
+
+the intended order for the sprites goes as follows (starting with item no. 1 being the farthest from the camera with subsequent items closer to the camera):
+
+1, SKY
+
+2, BG1
+
+3, BG2
+
+4, BG3
+
+5, BG4
+
+6, BG5 Fog
+
+7, Grass sprites
+
+8, Player
+
+9, Tileset
+
+10, FG1 Fog
+
+11, FG2
+
+12, FG3  
+
+note: the 4 tiles at the bottom are corner tiles 
+
+note 2: All the background and foreground sprites can be tiled seamlessly
+
