@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     public InputAction jumpAction;
     private Rigidbody2D rb;
     private SideScrollerMinigameManager manager;
+    private Animator animator;
 
     [SerializeField] private float jumpForce;
     private bool isGrounded;
@@ -21,6 +22,7 @@ public class Movement : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         manager = FindFirstObjectByType<SideScrollerMinigameManager>();
+        animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -58,13 +60,15 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             manager.gameOver = true;
-            Destroy(gameObject);
+            animator.SetBool("Dead", true);
+            Destroy(collision.gameObject);
         }
     }
 
     private void Jump()
     {
         rb.AddForce(Vector2.up * jumpForce);
+        animator.SetTrigger("Jump");
         isGrounded = false;
     }
 }

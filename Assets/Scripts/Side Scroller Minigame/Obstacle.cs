@@ -13,11 +13,14 @@ public class Obstacle : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector2.left * (manager.speed + 0.5f) * Time.deltaTime);
-
-        if(transform.position.x < -15f)
+        if(!manager.gameOver && manager.playing)
         {
-            Destroy(gameObject);
+            transform.Translate(Vector2.left * (manager.speed + 0.5f) * Time.deltaTime);
+
+            if (transform.position.x < -15f)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

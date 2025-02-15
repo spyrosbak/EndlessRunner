@@ -9,8 +9,8 @@ public class SideScrollerMinigameManager : MonoBehaviour
 {
     [SerializeField] private GameObject backgroundSprite;
     [SerializeField] private GameObject obstacle;
-    [SerializeField] private GameObject bigObstacle;
     [SerializeField] private Transform spawnPosition;
+    [SerializeField] private Animator playerAnimator;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -22,6 +22,7 @@ public class SideScrollerMinigameManager : MonoBehaviour
 
     public float speed;
     [NonSerialized] public bool gameOver;
+    [NonSerialized] public bool playing;
 
     private void Awake()
     {
@@ -31,31 +32,35 @@ public class SideScrollerMinigameManager : MonoBehaviour
     private void Start()
     {
         InvokeRepeating("GenerateObstacles", 1f, 3f);
+        playing = true;
     }
 
     private void Update()
     {
         if (gameOver)
         {
-            gameOverPanel.SetActive(true);
+            StartCoroutine(GameOver());
             
             return;
-        }  
+        }
 
-        IncreaseSpeed();
-        IncreaseScore();
-
-        backgroundSprite.transform.Translate(Vector2.left * speed * Time.deltaTime);
-
-        if(backgroundSprite.transform.position.x < -12.75f)
+        if (playing)
         {
-            backgroundSprite.transform.position = bgPos;
+            IncreaseSpeed();
+            IncreaseScore();
+
+            backgroundSprite.transform.Translate(Vector2.left * speed * Time.deltaTime);
+
+            if (backgroundSprite.transform.position.x < -12.75f)
+            {
+                backgroundSprite.transform.position = bgPos;
+            }
         }
     }
 
     private void GenerateObstacles()
     {
-        if (!gameOver)
+        if (!gameOver && playing)
         {
             Instantiate(obstacle, new Vector3(spawnPosition.position.x, spawnPosition.position.y + 0.3f, spawnPosition.position.z), Quaternion.identity);
         }
@@ -81,12 +86,21 @@ public class SideScrollerMinigameManager : MonoBehaviour
 
     public void PauseGame()
     {
-
+        playing = false;
+        playerAnimator.SetBool("gamePaused", true);
     }
 
     public void ResumeGame()
     {
+        playing = true;
+        playerAnimator.SetBool("gamePaused", false);
+    }
 
+    private IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        gameOverPanel.SetActive(true);
     }
 
     public void Retry()
