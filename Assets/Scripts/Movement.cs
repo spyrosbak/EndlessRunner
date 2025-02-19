@@ -54,7 +54,11 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             if(!isGrounded)
+            {
                 isGrounded = true;
+                SoundManager.Instance.landingSound.Play();
+            }
+                
         }
     }
 
@@ -64,6 +68,7 @@ public class Movement : MonoBehaviour
         {
             manager.gameOver = true;
             animator.SetBool("Dead", true);
+            SoundManager.Instance.gameOverSound.Play();
             Destroy(collision.gameObject);
         }
     }
@@ -72,6 +77,7 @@ public class Movement : MonoBehaviour
     {
         rb.AddForce(Vector2.up * jumpForce);
         animator.SetTrigger("Jump");
+        SoundManager.Instance.jumpSound.Play();
         isGrounded = false;
     }
 }

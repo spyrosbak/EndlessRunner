@@ -50,8 +50,9 @@ public class SideScrollerMinigameManager : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("GenerateObstacles", 1f, 3f);
         playing = true;
+        InvokeRepeating("GenerateObstacles", 1f, 3f);
+        SoundManager.Instance.mainTrack.Play();
     }
 
     private void Update()
@@ -122,28 +123,44 @@ public class SideScrollerMinigameManager : MonoBehaviour
     {
         playing = false;
         playerAnimator.SetBool("gamePaused", true);
+        SoundManager.Instance.mainTrack.Pause();
+        SoundManager.Instance.buttonPauseSound.Play();
+        SoundManager.Instance.pauseSound.PlayDelayed(1f);
     }
 
     public void ResumeGame()
     {
         playing = true;
         playerAnimator.SetBool("gamePaused", false);
+        SoundManager.Instance.mainTrack.UnPause();
+        SoundManager.Instance.pauseSound.Stop();
     }
 
     private IEnumerator GameOver()
     {
         yield return new WaitForSeconds(0.5f);
+        
+        if (SoundManager.Instance.mainTrack.volume > 0)
+        {
+            SoundManager.Instance.mainTrack.volume -= Time.deltaTime * 0.25f;
+        }
 
         gameOverPanel.SetActive(true);
     }
 
     public void Retry()
     {
+        SoundManager.Instance.buttonConfirmSound.Play();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()
     {
+        SoundManager.Instance.buttonConfirmSound.Play();
+        SoundManager.Instance.mainTrack.Stop();
+        
         SceneManager.LoadScene(0);
+
+        SoundManager.Instance.menuMusic.Play();
     }
 }
