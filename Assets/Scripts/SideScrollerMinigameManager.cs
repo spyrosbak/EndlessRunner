@@ -151,6 +151,7 @@ public class SideScrollerMinigameManager : MonoBehaviour
     public void Retry()
     {
         SoundManager.Instance.buttonConfirmSound.Play();
+        SoundManager.Instance.mainTrack.Play();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
